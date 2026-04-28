@@ -111,6 +111,58 @@
       gap: 12px;
     }
 
+    .version-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .version-heading {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .version-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .version-button {
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    }
+
+    .version-button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(126, 196, 244, 0.4);
+    }
+
+    .version-button.active {
+      background: rgba(126, 196, 244, 0.12);
+      border-color: rgba(126, 196, 244, 0.42);
+    }
+
+    .version-button-title {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .version-button-note {
+      display: block;
+      margin-top: 4px;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
     .gate-error {
       min-height: 24px;
       margin: 0;
@@ -234,6 +286,16 @@
     .quiz-chip strong {
       color: var(--text);
       font-weight: 700;
+    }
+
+    .quiz-chip.active-sheet {
+      background: rgba(145, 167, 255, 0.12);
+      color: var(--secondary);
+      border-color: rgba(145, 167, 255, 0.24);
+    }
+
+    .quiz-chip.active-sheet strong {
+      color: var(--text);
     }
 
     .progress-wrap {
@@ -538,6 +600,16 @@
       font-size: 0.92rem;
     }
 
+    .settings-select {
+      width: min(240px, 100%);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      font: inherit;
+    }
+
     .toggle-switch {
       position: relative;
       width: 58px;
@@ -760,6 +832,10 @@
       <h1 class="gate-title">Vocabulary Quiz</h1>
       <p class="gate-text">アクセスコードを入力すると、次回以降はそのまま開けます。</p>
     </div>
+    <div class="version-panel">
+      <p class="version-heading">バージョン選択</p>
+      <div class="version-grid" id="versionSelector"></div>
+    </div>
     <div class="gate-form">
       <input id="accessCode" type="password" inputmode="numeric" placeholder="アクセスコードを入力">
       <button class="primary-button" onclick="submitAccessCode()">開く</button>
@@ -777,11 +853,25 @@
 </main>
 
 <script>
-const SHEET_ID = '1jVf7SnTUsMpyjwOPHk8gJtM21F8HmYC6MFTjTUY04Aw';
-const SHEET_GID = '0';
-const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&gid=${SHEET_GID}`;
+const SHEET_VERSIONS = [
+  {
+    key: 'default',
+    label: '通常版',
+    note: '現在の単語データベース',
+    sheetId: '1jVf7SnTUsMpyjwOPHk8gJtM21F8HmYC6MFTjTUY04Aw',
+    gid: '0'
+  },
+  {
+    key: 'new',
+    label: '新バージョン',
+    note: '追加のスプレッドシートを読む版',
+    sheetId: '1q2yENXiQVvBKLAQQzfRkTmKG1A-S77ICNMbCImL9uWQ',
+    gid: '0'
+  }
+];
 const PROFILE_COOKIE = 'voc_profile';
 const ACCESS_COOKIE = 'voc_access_granted';
+const SHEET_COOKIE = 'voc_sheet_version';
 
 const MODE_LABELS = {
   definition_to_word: '定義→英単語',
@@ -800,10 +890,20 @@ let order = [];
 let profile = createDefaultProfile();
 let questionSession = null;
 let settingsOpen = false;
+let currentSheetKey = SHEET_VERSIONS[0].key;
 
 const controls = document.getElementById('controls');
 const gateScreen = document.getElementById('gateScreen');
 const appShell = document.getElementById('appShell');
+
+function getSheetVersion(key = currentSheetKey) {
+  return SHEET_VERSIONS.find((version) => version.key === key) || SHEET_VERSIONS[0];
+}
+
+function getSheetUrl(key = currentSheetKey) {
+  const version = getSheetVersion(key);
+  return `https://docs.google.com/spreadsheets/d/${version.sheetId}/gviz/tq?tqx=out:json&gid=${version.gid}`;
+}
 
 function parseGoogleVisualizationResponse(text) {
   const prefix = 'google.visualization.Query.setResponse(';
@@ -838,7 +938,7 @@ function normalizeEntry(row) {
 }
 
 async function loadSheetData() {
-  const response = await fetch(SHEET_URL);
+  const response = await fetch(getSheetUrl());
 
   if (!response.ok) {
     throw new Error(`Failed to load sheet data: ${response.status}`);
@@ -946,6 +1046,45 @@ function getAccessCookie() {
 
 function clearAccessCookie() {
   document.cookie = `${ACCESS_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
+}
+
+function saveSelectedSheet(key) {
+  setCookie(SHEET_COOKIE, key, 365);
+}
+
+function loadSelectedSheet() {
+  const saved = getCookie(SHEET_COOKIE);
+  return getSheetVersion(saved).key;
+}
+
+function getCurrentVersionLabel() {
+  return getSheetVersion().label;
+}
+
+function isCurrentSheetUnlocked() {
+  return getAccessCookie() === currentSheetKey;
+}
+
+function renderVersionSelector() {
+  const container = document.getElementById('versionSelector');
+  if (!container) return;
+
+  container.innerHTML = SHEET_VERSIONS.map((version) => `
+    <button
+      class="version-button ${version.key === currentSheetKey ? 'active' : ''}"
+      type="button"
+      data-sheet-key="${version.key}"
+    >
+      <span class="version-button-title">${escapeHtml(version.label)}</span>
+      <span class="version-button-note">${escapeHtml(version.note)}</span>
+    </button>
+  `).join('');
+
+  container.querySelectorAll('.version-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      switchSheetVersion(button.dataset.sheetKey || SHEET_VERSIONS[0].key);
+    });
+  });
 }
 
 function ensureQuestionSession() {
@@ -1079,6 +1218,7 @@ function renderCard(label, promptTitle, promptText, body, metaItems = []) {
     <div class="quiz-card">
       <div class="quiz-topbar">
         <div class="quiz-chip-wrap">
+          <div class="quiz-chip active-sheet">Version <strong>${escapeHtml(getCurrentVersionLabel())}</strong></div>
           <div class="quiz-chip"><strong>${MODE_LABELS[mode]}</strong></div>
           <div class="quiz-chip">Question <strong>${current + 1}</strong> / ${entries.length}</div>
         </div>
@@ -1140,11 +1280,25 @@ function renderProfilePage() {
   document.getElementById('changeProfileName')?.addEventListener('click', updateProfileName);
   document.getElementById('toggleKeepLoggedIn')?.addEventListener('click', toggleKeepLoggedIn);
   document.getElementById('clearProfileData')?.addEventListener('click', clearProfileData);
+  document.getElementById('sheetVersionSelect')?.addEventListener('change', (event) => {
+    switchSheetVersion(event.target.value);
+  });
 }
 
 function renderSettingsPanel() {
   return `
     <div class="settings-panel">
+      <div class="settings-row">
+        <div class="settings-copy">
+          <p class="settings-title">出題バージョン</p>
+          <p class="settings-note">使うスプレッドシートを切り替えます。選択は cookie に保存されます。</p>
+        </div>
+        <select class="settings-select" id="sheetVersionSelect" aria-label="出題バージョン">
+          ${SHEET_VERSIONS.map((version) => `
+            <option value="${escapeHtml(version.key)}" ${version.key === currentSheetKey ? 'selected' : ''}>${escapeHtml(version.label)}</option>
+          `).join('')}
+        </select>
+      </div>
       <div class="settings-row">
         <div class="settings-copy">
           <p class="settings-title">名前変更</p>
@@ -1230,7 +1384,7 @@ function toggleKeepLoggedIn() {
   saveProfile();
 
   if (profile.keepLoggedIn) {
-    setAccessCookie('1');
+    setAccessCookie(currentSheetKey);
   } else {
     clearAccessCookie();
   }
@@ -1251,6 +1405,51 @@ function clearProfileData() {
 
   if (mode === 'my_page') {
     renderProfilePage();
+  }
+}
+
+async function switchSheetVersion(nextKey) {
+  const nextVersion = getSheetVersion(nextKey);
+  if (nextVersion.key === currentSheetKey) return;
+
+  currentSheetKey = nextVersion.key;
+  saveSelectedSheet(currentSheetKey);
+  renderVersionSelector();
+
+  const gateError = document.getElementById('gateError');
+  if (gateError) {
+    gateError.textContent = '';
+  }
+
+  try {
+    await loadSheetData();
+    current = 0;
+    questionSession = null;
+    order = [...entries.keys()];
+    shuffle(order);
+  } catch (error) {
+    entries = [];
+    accessCode = '';
+    console.warn('Failed to load question data after switching sheet.', error);
+  }
+
+  if (profile.keepLoggedIn && isCurrentSheetUnlocked() && entries.length && accessCode) {
+    unlockApp();
+    return;
+  }
+
+  if (appShell.classList.contains('hidden')) {
+    const input = document.getElementById('accessCode');
+    if (input) {
+      input.value = '';
+    }
+    return;
+  }
+
+  gateScreen.classList.remove('hidden');
+  appShell.classList.add('hidden');
+  if (mode === 'my_page') {
+    mode = 'definition_to_word';
   }
 }
 
@@ -1508,7 +1707,7 @@ function submitAccessCode() {
 
   if (code === accessCode) {
     if (profile.keepLoggedIn) {
-      setAccessCookie('1');
+      setAccessCookie(currentSheetKey);
     } else {
       clearAccessCookie();
     }
@@ -1530,6 +1729,8 @@ function submitAccessCode() {
 async function initializeApp() {
   profile = loadProfile();
   settingsOpen = false;
+  currentSheetKey = loadSelectedSheet();
+  renderVersionSelector();
   try {
     await loadSheetData();
     console.info(`Loaded ${entries.length} rows from Google Sheets.`);
@@ -1539,7 +1740,7 @@ async function initializeApp() {
     console.warn('Failed to load question data.', error);
   }
 
-  if (profile.keepLoggedIn && getAccessCookie() === '1' && entries.length && accessCode) {
+  if (profile.keepLoggedIn && isCurrentSheetUnlocked() && entries.length && accessCode) {
     unlockApp();
     return;
   }
