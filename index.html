@@ -2,29 +2,77 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vocabulary Quiz</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #111418;
-      --bg-elevated: #1a1f26;
-      --surface: #20262e;
-      --surface-strong: #27303a;
-      --surface-soft: #242b34;
-      --line: rgba(255, 255, 255, 0.09);
-      --text: #f2f3f7;
-      --text-muted: #b7bdc9;
-      --primary: #7ec4f4;
-      --primary-strong: #68b4e8;
-      --secondary: #91a7ff;
-      --success: #7fe3b3;
-      --error: #ff8c8c;
-      --warning: #ffd37d;
+      --bg: #000000;
+      --bg-elevated: #0c0c0e;
+      --surface: #161618;
+      --surface-strong: #222226;
+      --surface-soft: #1c1c20;
+      --line: rgba(255, 255, 255, 0.1);
+      --text: #ffffff;
+      --text-muted: #b3b3b8;
+      --primary: #0a84ff;
+      --primary-strong: #409cff;
+      --secondary: #5e5ce6;
+      --success: #30d158;
+      --error: #ff453a;
+      --warning: #ffd60a;
       --radius-xl: 32px;
       --radius-lg: 24px;
       --radius-md: 18px;
       --radius-sm: 14px;
+      --header-bg: rgba(10, 10, 12, 0.88);
+      --header-shadow: 0 18px 40px rgba(0, 0, 0, 0.36);
+      --overlay-bg: rgba(0, 0, 0, 0.68);
+      --overlay-panel-bg: rgba(18, 18, 20, 0.96);
+      --overlay-shadow: 0 22px 48px rgba(0, 0, 0, 0.42);
+      --ghost-fill: rgba(255, 255, 255, 0.06);
+      --ghost-fill-strong: rgba(255, 255, 255, 0.1);
+      --ghost-fill-soft: rgba(255, 255, 255, 0.045);
+      --drawer-bg: rgba(255, 255, 255, 0.025);
+      --danger-bg: rgba(255, 69, 58, 0.14);
+      --danger-line: rgba(255, 69, 58, 0.32);
+      --toggle-bg: rgba(255, 255, 255, 0.16);
+      --stat-gauge-bg: rgba(255, 255, 255, 0.08);
+      --stat-center-line: rgba(255, 255, 255, 0.18);
+      --stat-rate-color: #ffffff;
+    }
+
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #ffffff;
+      --bg-elevated: #f7f7f7;
+      --surface: #ffffff;
+      --surface-strong: #efeff4;
+      --surface-soft: #f2f2f7;
+      --line: rgba(60, 60, 67, 0.16);
+      --text: #000000;
+      --text-muted: #6e6e73;
+      --primary: #007aff;
+      --primary-strong: #005ecb;
+      --secondary: #5856d6;
+      --success: #34c759;
+      --error: #ff3b30;
+      --warning: #ffcc00;
+      --header-bg: rgba(255, 255, 255, 0.86);
+      --header-shadow: 0 18px 40px rgba(60, 60, 67, 0.12);
+      --overlay-bg: rgba(0, 0, 0, 0.16);
+      --overlay-panel-bg: rgba(255, 255, 255, 0.97);
+      --overlay-shadow: 0 22px 48px rgba(60, 60, 67, 0.16);
+      --ghost-fill: rgba(60, 60, 67, 0.06);
+      --ghost-fill-strong: rgba(60, 60, 67, 0.1);
+      --ghost-fill-soft: rgba(60, 60, 67, 0.045);
+      --drawer-bg: rgba(60, 60, 67, 0.035);
+      --danger-bg: rgba(255, 59, 48, 0.1);
+      --danger-line: rgba(255, 59, 48, 0.18);
+      --toggle-bg: rgba(120, 120, 128, 0.16);
+      --stat-gauge-bg: rgba(60, 60, 67, 0.08);
+      --stat-center-line: rgba(60, 60, 67, 0.18);
+      --stat-rate-color: #000000;
     }
 
     * {
@@ -33,7 +81,6 @@
 
     html, body {
       min-height: 100%;
-      touch-action: manipulation;
     }
 
     body {
@@ -43,6 +90,7 @@
       background: var(--bg);
       padding: 32px 20px 40px;
       overflow-x: hidden;
+      transition: background 0.25s ease, color 0.25s ease;
     }
 
     .background-grid {
@@ -181,9 +229,9 @@
       display: grid;
       gap: 14px;
       padding: 18px 20px;
-      background: rgba(26, 31, 38, 0.88);
+      background: var(--header-bg);
       backdrop-filter: blur(18px);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+      box-shadow: var(--header-shadow);
     }
 
     .app-header-row {
@@ -245,7 +293,7 @@
       min-height: 48px;
       padding: 0 16px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--ghost-fill);
       border: 1px solid var(--line);
       color: var(--text);
       font-weight: 700;
@@ -259,7 +307,7 @@
     .header-badge.button-like:hover {
       transform: translateY(-1px);
       border-color: rgba(126, 196, 244, 0.24);
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--ghost-fill-strong);
     }
 
     .header-badge-label {
@@ -281,7 +329,7 @@
       padding: 0;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--ghost-fill-soft);
       color: var(--text-muted);
       display: inline-flex;
       align-items: center;
@@ -347,7 +395,7 @@
       display: grid;
       place-items: center;
       padding: 24px;
-      background: rgba(9, 12, 16, 0.62);
+      background: var(--overlay-bg);
       backdrop-filter: blur(12px);
     }
 
@@ -355,9 +403,9 @@
       width: min(560px, 100%);
       padding: 22px;
       border-radius: var(--radius-xl);
-      background: rgba(26, 31, 38, 0.96);
+      background: var(--overlay-panel-bg);
       border: 1px solid var(--line);
-      box-shadow: 0 22px 48px rgba(0, 0, 0, 0.34);
+      box-shadow: var(--overlay-shadow);
       display: grid;
       gap: 16px;
     }
@@ -402,7 +450,7 @@
       height: 42px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--ghost-fill-soft);
       color: var(--text);
       display: inline-flex;
       align-items: center;
@@ -410,11 +458,23 @@
       flex: 0 0 auto;
     }
 
+    .overlay-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     button {
       appearance: none;
       border: none;
       cursor: pointer;
       font: inherit;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.5;
     }
 
     .card {
@@ -706,7 +766,7 @@
     .secondary-button {
       padding: 12px 16px;
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.04);
+      background: var(--ghost-fill-soft);
       border: 1px solid var(--line);
       color: var(--text);
       font-weight: 700;
@@ -717,7 +777,7 @@
       gap: 12px;
       padding: 18px;
       border-radius: var(--radius-lg);
-      background: rgba(255, 255, 255, 0.03);
+      background: var(--drawer-bg);
       border: 1px solid var(--line);
     }
 
@@ -746,6 +806,10 @@
       font-size: 0.92rem;
     }
 
+    .settings-action {
+      min-width: 110px;
+    }
+
     .settings-select {
       width: min(240px, 100%);
       padding: 10px 14px;
@@ -761,9 +825,13 @@
       width: 58px;
       height: 34px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.12);
+      background: var(--toggle-bg);
       border: 1px solid var(--line);
       flex: 0 0 auto;
+    }
+
+    .toggle-switch.disabled {
+      opacity: 0.45;
     }
 
     .toggle-switch::after {
@@ -779,8 +847,8 @@
     }
 
     .toggle-switch.active {
-      background: rgba(127, 227, 179, 0.22);
-      border-color: rgba(127, 227, 179, 0.32);
+      background: #34c759;
+      border-color: #34c759;
     }
 
     .toggle-switch.active::after {
@@ -790,10 +858,85 @@
     .danger-button {
       padding: 12px 16px;
       border-radius: 16px;
-      background: rgba(255, 140, 140, 0.14);
-      border: 1px solid rgba(255, 140, 140, 0.32);
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-line);
       color: var(--error);
       font-weight: 700;
+    }
+
+    .range-option-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .range-option {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 16px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      text-align: left;
+      transition: border-color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+    }
+
+    .range-option.selected {
+      border-color: rgba(126, 196, 244, 0.42);
+      background: rgba(126, 196, 244, 0.12);
+    }
+
+    .range-option.disabled {
+      opacity: 0.45;
+    }
+
+    .range-option-copy {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .range-option-title {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+    }
+
+    .range-option-note {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .range-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.02);
+      flex: 0 0 auto;
+      position: relative;
+    }
+
+    .range-option.selected .range-check {
+      border-color: rgba(126, 196, 244, 0.5);
+      background: rgba(126, 196, 244, 0.2);
+    }
+
+    .range-option.selected .range-check::after {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border-right: 2px solid var(--primary);
+      border-bottom: 2px solid var(--primary);
+      transform: rotate(45deg);
     }
 
     .stats-grid {
@@ -828,7 +971,7 @@
       margin: 0;
       font-size: 1.2rem;
       font-weight: 800;
-      color: var(--primary);
+      color: var(--stat-rate-color);
     }
 
     .stat-values {
@@ -842,7 +985,7 @@
       height: 12px;
       border-radius: 999px;
       overflow: hidden;
-      background: rgba(255, 255, 255, 0.06);
+      background: var(--stat-gauge-bg);
       border: 1px solid var(--line);
     }
 
@@ -854,12 +997,12 @@
 
     .stat-gauge-fill.correct {
       left: 0;
-      background: linear-gradient(90deg, rgba(127, 227, 179, 0.75), rgba(127, 227, 179, 1));
+      background: linear-gradient(90deg, color-mix(in srgb, var(--success) 82%, transparent), var(--success));
     }
 
     .stat-gauge-fill.incorrect {
       right: 0;
-      background: linear-gradient(90deg, rgba(255, 140, 140, 1), rgba(255, 140, 140, 0.75));
+      background: linear-gradient(90deg, var(--error), color-mix(in srgb, var(--error) 82%, transparent));
     }
 
     .stat-gauge-center {
@@ -868,7 +1011,7 @@
       bottom: 1px;
       left: 50%;
       width: 1px;
-      background: rgba(255, 255, 255, 0.16);
+      background: var(--stat-center-line);
       transform: translateX(-50%);
     }
 
@@ -977,26 +1120,7 @@
   <rect width="1600" height="900" fill="url(#grid)"></rect>
 </svg>
 
-<section class="gate-shell" id="gateScreen">
-  <div class="gate-card panel">
-    <svg class="gate-visual" viewBox="0 0 80 80" aria-hidden="true">
-      <rect x="16" y="34" width="48" height="30" rx="10" fill="none" stroke="currentColor" stroke-width="2.5"></rect>
-      <path d="M28 34v-8c0-7.2 5.5-12 12-12s12 4.8 12 12v8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
-      <circle cx="40" cy="48" r="4" fill="currentColor"></circle>
-    </svg>
-    <div class="version-panel">
-      <p class="version-heading">バージョン選択</p>
-      <div class="version-grid" id="versionSelector"></div>
-    </div>
-    <div class="gate-form">
-      <input id="accessCode" type="password" inputmode="numeric" placeholder="アクセスコードを入力">
-      <button class="primary-button" onclick="submitAccessCode()">開く</button>
-      <p class="gate-error" id="gateError"></p>
-    </div>
-  </div>
-</section>
-
-<main class="app-shell hidden" id="appShell">
+<main class="app-shell" id="appShell">
   <section class="app-header panel" id="appHeader"></section>
   <section class="card panel" id="quiz"></section>
 </main>
@@ -1009,20 +1133,25 @@ const SHEET_CONFIG = {
   gid: '0'
 };
 const PROFILE_COOKIE = 'voc_profile';
-const ACCESS_COOKIE = 'voc_access_granted';
 const SHEET_COOKIE = 'voc_sheet_version';
+const ALL_SHEETS_KEY = 'all-sheets';
 
 const MODE_LABELS = {
-  definition_to_word: '定義→英単語',
-  word_to_japanese: '英単語→日本語',
-  japanese_to_word: '日本語→英単語',
-  my_page: 'マイページ'
+  definition_to_word: 'Definition to Word',
+  word_to_japanese: 'Word to Japanese',
+  japanese_to_word: 'Japanese to Word',
+  my_page: 'My Page'
+};
+
+const PROFILE_MODE_LABELS = {
+  definition_to_word: 'Definition to Word',
+  word_to_japanese: 'Word to Japanese',
+  japanese_to_word: 'Japanese to Word'
 };
 
 const QUIZ_MODES = ['japanese_to_word', 'word_to_japanese', 'definition_to_word'];
 
 let entries = [];
-let accessCode = '';
 let mode = 'japanese_to_word';
 let current = 0;
 let order = [];
@@ -1030,23 +1159,27 @@ let profile = createDefaultProfile();
 let questionSession = null;
 let settingsOpen = false;
 let versionOverlayOpen = false;
+let allModeRangeOverlayOpen = false;
 let overlaySheetKey = '';
-let overlayAccessCodeValue = '';
-let overlayAccessError = '';
 let overlayLoading = false;
-let overlayLoadedVersion = null;
 let sheetVersions = [];
 let currentSheetKey = '';
 let lastQuizMode = 'japanese_to_word';
 let perfectProgressCount = 0;
+let draftAllModeSelectAll = true;
+let draftAllModeSelectedKeys = [];
 
-const gateScreen = document.getElementById('gateScreen');
 const appShell = document.getElementById('appShell');
 const appHeader = document.getElementById('appHeader');
 const overlayRoot = document.getElementById('overlayRoot');
+const systemThemeMedia = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
 
 function getSheetVersion(key = currentSheetKey) {
   return sheetVersions.find((version) => version.key === key) || sheetVersions[0] || null;
+}
+
+function getRealSheetVersions() {
+  return sheetVersions.filter((version) => version.key !== ALL_SHEETS_KEY);
 }
 
 function getSheetConfigUrl() {
@@ -1139,10 +1272,38 @@ async function loadSheetVersions() {
     throw new Error('No valid sheet versions found in config sheet.');
   }
 
-  sheetVersions = nextVersions;
+  sheetVersions = [
+    {
+      key: ALL_SHEETS_KEY,
+      label: 'ALL',
+      note: ''
+    },
+    ...nextVersions
+  ];
 }
 
 async function loadSheetDataForKey(key = currentSheetKey) {
+  if (key === ALL_SHEETS_KEY) {
+    const selectedKeys = getEffectiveAllModeKeys();
+    const versions = getRealSheetVersions().filter((version) => selectedKeys.includes(version.key));
+    if (!versions.length) {
+      throw new Error('No sheet versions available for combined mode.');
+    }
+
+    const payloads = await Promise.all(
+      versions.map((version) => loadSheetDataForKey(version.key))
+    );
+
+    const nextEntries = payloads.flatMap((payload) => payload.entries);
+    if (!nextEntries.length) {
+      throw new Error('No valid vocabulary rows found across sheet versions.');
+    }
+
+    return {
+      entries: nextEntries
+    };
+  }
+
   const response = await fetch(getSheetUrl(key));
 
   if (!response.ok) {
@@ -1157,10 +1318,6 @@ async function loadSheetDataForKey(key = currentSheetKey) {
     throw new Error('No rows found in sheet.');
   }
 
-  const nextAccessCode = rows
-    .map(row => normalizeCell(row.c?.[4]))
-    .find(Boolean) || '';
-
   const nextEntries = rows
     .map(normalizeEntry)
     .filter(Boolean);
@@ -1169,25 +1326,18 @@ async function loadSheetDataForKey(key = currentSheetKey) {
     throw new Error('No valid vocabulary rows found in sheet.');
   }
 
-  if (!nextAccessCode) {
-    throw new Error('Access code not found in password column.');
-  }
-
   return {
-    entries: nextEntries,
-    accessCode: nextAccessCode
+    entries: nextEntries
   };
 }
 
 async function loadSheetData() {
   const payload = await loadSheetDataForKey();
   entries = payload.entries;
-  accessCode = payload.accessCode;
 }
 
 function applyLoadedSheetState(nextKey, payload) {
   currentSheetKey = nextKey;
-  accessCode = payload.accessCode;
   entries = payload.entries;
   current = 0;
   perfectProgressCount = 0;
@@ -1202,8 +1352,15 @@ function createDefaultStats() {
 
 function createDefaultProfile() {
   return {
-    keepLoggedIn: false,
+    theme: {
+      followSystem: true,
+      darkMode: true
+    },
     autoFocusDefinitionAnswer: false,
+    allModeSettings: {
+      selectAll: true,
+      selectedKeys: []
+    },
     stats: {
       definition_to_word: createDefaultStats(),
       word_to_japanese: createDefaultStats(),
@@ -1235,8 +1392,17 @@ function loadProfile() {
   try {
     const parsed = JSON.parse(raw);
     return {
-      keepLoggedIn: Boolean(parsed.keepLoggedIn),
+      theme: {
+        followSystem: parsed.theme?.followSystem !== false,
+        darkMode: parsed.theme?.darkMode !== false
+      },
       autoFocusDefinitionAnswer: Boolean(parsed.autoFocusDefinitionAnswer),
+      allModeSettings: {
+        selectAll: parsed.allModeSettings?.selectAll !== false,
+        selectedKeys: Array.isArray(parsed.allModeSettings?.selectedKeys)
+          ? parsed.allModeSettings.selectedKeys.filter((key) => typeof key === 'string')
+          : []
+      },
       stats: {
         definition_to_word: {
           ...createDefaultStats(),
@@ -1262,17 +1428,65 @@ function saveProfile() {
   setCookie(PROFILE_COOKIE, JSON.stringify(profile));
 }
 
-function setAccessCookie(value, days = 30) {
-  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
-  document.cookie = `${ACCESS_COOKIE}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
+function isSystemDarkMode() {
+  return Boolean(systemThemeMedia?.matches);
 }
 
-function getAccessCookie() {
-  return getCookie(ACCESS_COOKIE);
+function getResolvedTheme() {
+  const theme = profile.theme || createDefaultProfile().theme;
+  const useDarkMode = theme.followSystem ? isSystemDarkMode() : theme.darkMode !== false;
+  return useDarkMode ? 'dark' : 'light';
 }
 
-function clearAccessCookie() {
-  document.cookie = `${ACCESS_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
+function applyTheme() {
+  const resolvedTheme = getResolvedTheme();
+  document.documentElement.dataset.theme = resolvedTheme;
+  document.documentElement.style.colorScheme = resolvedTheme;
+}
+
+function getAllModeSettings() {
+  const stored = profile.allModeSettings || createDefaultProfile().allModeSettings;
+  const validKeys = new Set(getRealSheetVersions().map((version) => version.key));
+  const selectedKeys = (stored.selectedKeys || []).filter((key) => validKeys.has(key));
+
+  return {
+    selectAll: stored.selectAll !== false,
+    selectedKeys
+  };
+}
+
+function getEffectiveAllModeKeys() {
+  const versions = getRealSheetVersions();
+  const settings = getAllModeSettings();
+
+  if (settings.selectAll) {
+    return versions.map((version) => version.key);
+  }
+
+  if (settings.selectedKeys.length) {
+    return settings.selectedKeys;
+  }
+
+  return versions[0] ? [versions[0].key] : [];
+}
+
+function getAllModeSummary() {
+  const versions = getRealSheetVersions();
+  const settings = getAllModeSettings();
+
+  if (settings.selectAll) {
+    return 'All';
+  }
+
+  const selectedLabels = versions
+    .filter((version) => settings.selectedKeys.includes(version.key))
+    .map((version) => version.label);
+
+  if (!selectedLabels.length) {
+    return 'None selected';
+  }
+
+  return selectedLabels.join(', ');
 }
 
 function saveSelectedSheet(key) {
@@ -1281,15 +1495,14 @@ function saveSelectedSheet(key) {
 
 function loadSelectedSheet() {
   const saved = getCookie(SHEET_COOKIE);
-  return getSheetVersion(saved)?.key || sheetVersions[0]?.key || '';
+  if (!saved) {
+    return ALL_SHEETS_KEY;
+  }
+  return getSheetVersion(saved)?.key || ALL_SHEETS_KEY;
 }
 
 function getCurrentVersionLabel() {
-  return getSheetVersion()?.label || '未設定';
-}
-
-function isCurrentSheetUnlocked() {
-  return getAccessCookie() === currentSheetKey;
+  return getSheetVersion()?.label || 'Not set';
 }
 
 function renderVersionSelector() {
@@ -1465,7 +1678,7 @@ function renderModeIcon(targetMode) {
         <text x="5.8" y="9.2" text-anchor="middle" font-size="7.2" font-weight="700" fill="currentColor">A</text>
         <path d="M7.8 12h8.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
         <path d="M13.8 9.7 16.7 12l-2.9 2.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
-        <text x="18" y="15.9" text-anchor="middle" font-size="6.8" font-weight="700" fill="currentColor">あ</text>
+        <text x="18" y="15.9" text-anchor="middle" font-size="5.8" font-weight="700" fill="currentColor">JP</text>
       </svg>
     `;
   }
@@ -1473,7 +1686,7 @@ function renderModeIcon(targetMode) {
   if (targetMode === 'japanese_to_word') {
     return `
       <svg viewBox="0 0 24 24" aria-hidden="true">
-        <text x="5.8" y="9.4" text-anchor="middle" font-size="6.8" font-weight="700" fill="currentColor">あ</text>
+        <text x="5.8" y="9.4" text-anchor="middle" font-size="5.8" font-weight="700" fill="currentColor">JP</text>
         <path d="M7.8 12h8.2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
         <path d="M13.8 9.7 16.7 12l-2.9 2.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"></path>
         <text x="18.1" y="15.7" text-anchor="middle" font-size="7.2" font-weight="700" fill="currentColor">A</text>
@@ -1502,7 +1715,7 @@ function getSectionLabel() {
 }
 
 function getHeaderTitle() {
-  return mode === 'my_page' ? 'マイページ' : 'Vocabulary Quiz';
+  return mode === 'my_page' ? 'My Page' : 'Vocabulary Quiz';
 }
 
 function renderHeaderStudySwitcher() {
@@ -1513,7 +1726,7 @@ function renderHeaderStudySwitcher() {
           ${renderModeIcon(key)}
         </button>
       `).join('')}
-      <button class="header-settings-button ${settingsOpen ? 'active' : ''}" id="toggleSettings" type="button" aria-label="設定" title="設定">
+      <button class="header-settings-button ${settingsOpen ? 'active' : ''}" id="toggleSettings" type="button" aria-label="Settings" title="Settings">
         ${renderSettingsIcon()}
       </button>
     </div>
@@ -1523,8 +1736,67 @@ function renderHeaderStudySwitcher() {
 function renderVersionOverlay() {
   if (!overlayRoot) return;
 
-  if (!versionOverlayOpen) {
+  if (!versionOverlayOpen && !allModeRangeOverlayOpen) {
     overlayRoot.innerHTML = '';
+    return;
+  }
+
+  if (allModeRangeOverlayOpen) {
+    const selectableVersions = getRealSheetVersions();
+    const canSave = draftAllModeSelectAll || draftAllModeSelectedKeys.length > 0;
+
+    overlayRoot.innerHTML = `
+      <div class="overlay-shell" id="allModeRangeOverlayBackdrop">
+        <div class="overlay-panel" role="dialog" aria-modal="true" aria-labelledby="allModeRangeOverlayTitle">
+          <div class="overlay-head">
+            <div class="overlay-copy">
+              <h2 class="overlay-title" id="allModeRangeOverlayTitle">ALL Range</h2>
+            </div>
+            <button class="overlay-close" id="closeAllModeRangeOverlay" type="button" aria-label="Close">×</button>
+          </div>
+          <div class="range-option-list">
+            <button class="range-option ${draftAllModeSelectAll ? 'selected' : ''}" type="button" id="toggleAllModeSelectAll">
+              <div class="range-option-copy">
+                <p class="range-option-title">All</p>
+              </div>
+              <span class="range-check" aria-hidden="true"></span>
+            </button>
+            ${selectableVersions.map((version) => `
+              <button
+                class="range-option ${draftAllModeSelectedKeys.includes(version.key) ? 'selected' : ''} ${draftAllModeSelectAll ? 'disabled' : ''}"
+                type="button"
+                data-all-mode-key="${version.key}"
+                ${draftAllModeSelectAll ? 'disabled' : ''}
+              >
+                <div class="range-option-copy">
+                  <p class="range-option-title">${escapeHtml(version.label)}</p>
+                </div>
+                <span class="range-check" aria-hidden="true"></span>
+              </button>
+            `).join('')}
+          </div>
+          <div class="overlay-actions">
+            <button class="secondary-button" id="cancelAllModeRangeSelection" type="button">Cancel</button>
+            <button class="primary-button" id="saveAllModeRangeSelection" type="button" ${canSave ? '' : 'disabled'}>Save</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.getElementById('closeAllModeRangeOverlay')?.addEventListener('click', closeAllModeRangeOverlay);
+    document.getElementById('cancelAllModeRangeSelection')?.addEventListener('click', closeAllModeRangeOverlay);
+    document.getElementById('allModeRangeOverlayBackdrop')?.addEventListener('click', (event) => {
+      if (event.target?.id === 'allModeRangeOverlayBackdrop') {
+        closeAllModeRangeOverlay();
+      }
+    });
+    document.getElementById('toggleAllModeSelectAll')?.addEventListener('click', toggleDraftAllModeSelectAll);
+    overlayRoot.querySelectorAll('[data-all-mode-key]').forEach((button) => {
+      button.addEventListener('click', () => {
+        toggleDraftAllModeVersion(button.dataset.allModeKey || '');
+      });
+    });
+    document.getElementById('saveAllModeRangeSelection')?.addEventListener('click', applyAllModeRangeSelection);
     return;
   }
 
@@ -1533,10 +1805,9 @@ function renderVersionOverlay() {
       <div class="overlay-panel" role="dialog" aria-modal="true" aria-labelledby="versionOverlayTitle">
         <div class="overlay-head">
           <div class="overlay-copy">
-            <p class="overlay-kicker">Version</p>
-            <h2 class="overlay-title" id="versionOverlayTitle">出題バージョンを選ぶ</h2>
+            <h2 class="overlay-title" id="versionOverlayTitle">Choose Version</h2>
           </div>
-          <button class="overlay-close" id="closeVersionOverlay" type="button" aria-label="閉じる">×</button>
+          <button class="overlay-close" id="closeVersionOverlay" type="button" aria-label="Close">×</button>
         </div>
         <div class="version-grid">
           ${sheetVersions.map((version) => `
@@ -1551,13 +1822,6 @@ function renderVersionOverlay() {
             </button>
           `).join('')}
         </div>
-        ${overlaySheetKey && overlaySheetKey !== currentSheetKey ? `
-          <div class="gate-form">
-            <input id="overlayAccessCode" type="password" inputmode="numeric" placeholder="アクセスコードを入力" value="${escapeHtml(overlayAccessCodeValue)}" ${overlayLoading ? 'disabled' : ''}>
-            <button class="primary-button" id="submitOverlayAccessCode" type="button" ${overlayLoading || !overlayLoadedVersion ? 'disabled' : ''}>このバージョンを開く</button>
-            <p class="gate-error" id="overlayAccessError">${escapeHtml(overlayLoading ? '読み込み中…' : overlayAccessError)}</p>
-          </div>
-        ` : ''}
       </div>
     </div>
   `;
@@ -1573,16 +1837,6 @@ function renderVersionOverlay() {
       selectOverlaySheetVersion(button.dataset.overlaySheetKey || sheetVersions[0]?.key || '');
     });
   });
-  document.getElementById('overlayAccessCode')?.addEventListener('input', (event) => {
-    overlayAccessCodeValue = event.target.value;
-    overlayAccessError = '';
-  });
-  document.getElementById('overlayAccessCode')?.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      submitOverlayAccessCode();
-    }
-  });
-  document.getElementById('submitOverlayAccessCode')?.addEventListener('click', submitOverlayAccessCode);
 }
 
 function renderHeader() {
@@ -1590,7 +1844,6 @@ function renderHeader() {
     <div class="app-header-row">
       <div class="app-header-actions">
         <button class="header-badge button-like" id="openVersionOverlay" type="button">
-          <span class="header-badge-label">Version</span>
           <span>${escapeHtml(getCurrentVersionLabel())}</span>
         </button>
         <div class="app-header-study">
@@ -1603,7 +1856,9 @@ function renderHeader() {
 
   document.getElementById('openVersionOverlay')?.addEventListener('click', openVersionOverlay);
   document.getElementById('toggleSettings')?.addEventListener('click', toggleSettings);
-  document.getElementById('toggleKeepLoggedIn')?.addEventListener('click', toggleKeepLoggedIn);
+  document.getElementById('toggleDarkMode')?.addEventListener('click', toggleDarkMode);
+  document.getElementById('toggleFollowSystemTheme')?.addEventListener('click', toggleFollowSystemTheme);
+  document.getElementById('openAllModeRangeOverlay')?.addEventListener('click', openAllModeRangeOverlay);
   document.getElementById('toggleAutoFocusDefinitionAnswer')?.addEventListener('click', toggleAutoFocusDefinitionAnswer);
   document.getElementById('clearProfileData')?.addEventListener('click', clearProfileData);
   renderVersionOverlay();
@@ -1611,10 +1866,8 @@ function renderHeader() {
 
 function openVersionOverlay() {
   overlaySheetKey = currentSheetKey;
-  overlayAccessCodeValue = '';
-  overlayAccessError = '';
+  allModeRangeOverlayOpen = false;
   overlayLoading = false;
-  overlayLoadedVersion = null;
   versionOverlayOpen = true;
   renderVersionOverlay();
 }
@@ -1622,10 +1875,70 @@ function openVersionOverlay() {
 function closeVersionOverlay() {
   versionOverlayOpen = false;
   overlaySheetKey = currentSheetKey;
-  overlayAccessCodeValue = '';
-  overlayAccessError = '';
   overlayLoading = false;
-  overlayLoadedVersion = null;
+  renderVersionOverlay();
+}
+
+function openAllModeRangeOverlay() {
+  const settings = getAllModeSettings();
+  draftAllModeSelectAll = settings.selectAll;
+  draftAllModeSelectedKeys = [...settings.selectedKeys];
+  versionOverlayOpen = false;
+  allModeRangeOverlayOpen = true;
+  renderVersionOverlay();
+}
+
+function closeAllModeRangeOverlay() {
+  allModeRangeOverlayOpen = false;
+  renderVersionOverlay();
+}
+
+function toggleDraftAllModeSelectAll() {
+  draftAllModeSelectAll = !draftAllModeSelectAll;
+  renderVersionOverlay();
+}
+
+function toggleDraftAllModeVersion(key) {
+  if (!key || draftAllModeSelectAll) return;
+
+  if (draftAllModeSelectedKeys.includes(key)) {
+    draftAllModeSelectedKeys = draftAllModeSelectedKeys.filter((item) => item !== key);
+  } else {
+    draftAllModeSelectedKeys = [...draftAllModeSelectedKeys, key];
+  }
+
+  renderVersionOverlay();
+}
+
+async function applyAllModeRangeSelection() {
+  if (!draftAllModeSelectAll && !draftAllModeSelectedKeys.length) return;
+
+  profile.allModeSettings = {
+    selectAll: draftAllModeSelectAll,
+    selectedKeys: draftAllModeSelectAll ? [] : [...draftAllModeSelectedKeys]
+  };
+  saveProfile();
+  allModeRangeOverlayOpen = false;
+  renderHeader();
+
+  if (currentSheetKey !== ALL_SHEETS_KEY) {
+    renderVersionOverlay();
+    return;
+  }
+
+  try {
+    await loadSheetData();
+    current = 0;
+    questionSession = null;
+    perfectProgressCount = 0;
+    order = [...entries.keys()];
+    shuffle(order);
+  } catch (error) {
+    entries = [];
+    console.warn('Failed to reload ALL mode data after updating range selection.', error);
+  }
+
+  renderCurrentQuestion();
   renderVersionOverlay();
 }
 
@@ -1634,9 +1947,6 @@ async function selectOverlaySheetVersion(nextKey) {
   if (!nextVersion || overlayLoading) return;
 
   overlaySheetKey = nextVersion.key;
-  overlayAccessCodeValue = '';
-  overlayAccessError = '';
-  overlayLoadedVersion = null;
 
   if (nextVersion.key === currentSheetKey) {
     renderVersionOverlay();
@@ -1648,63 +1958,19 @@ async function selectOverlaySheetVersion(nextKey) {
 
   try {
     const payload = await loadSheetDataForKey(nextVersion.key);
-    overlayLoadedVersion = {
-      key: nextVersion.key,
-      payload
-    };
-    overlayAccessError = '';
-
-    if (profile.keepLoggedIn && getAccessCookie() === nextVersion.key) {
-      applyLoadedSheetState(nextVersion.key, payload);
-      saveSelectedSheet(currentSheetKey);
-      renderVersionSelector();
-      renderHeader();
-      renderCurrentQuestion();
-      closeVersionOverlay();
-      return;
-    }
+    applyLoadedSheetState(nextVersion.key, payload);
+    saveSelectedSheet(currentSheetKey);
+    renderVersionSelector();
+    renderHeader();
+    renderCurrentQuestion();
+    closeVersionOverlay();
+    return;
   } catch (error) {
-    overlayAccessError = 'このバージョンを読み込めませんでした。';
     console.warn('Failed to load question data for overlay version switch.', error);
   } finally {
     overlayLoading = false;
     renderVersionOverlay();
   }
-}
-
-function submitOverlayAccessCode() {
-  if (overlayLoading || !overlayLoadedVersion) return;
-
-  const input = document.getElementById('overlayAccessCode');
-  const code = (input?.value || overlayAccessCodeValue).trim();
-
-  if (!overlayLoadedVersion.payload.accessCode) {
-    overlayAccessError = 'アクセスコードを取得できませんでした。';
-    renderVersionOverlay();
-    return;
-  }
-
-  if (code !== overlayLoadedVersion.payload.accessCode) {
-    overlayAccessCodeValue = code;
-    overlayAccessError = 'アクセスコードが違います。';
-    renderVersionOverlay();
-    document.getElementById('overlayAccessCode')?.select();
-    return;
-  }
-
-  applyLoadedSheetState(overlayLoadedVersion.key, overlayLoadedVersion.payload);
-  saveSelectedSheet(currentSheetKey);
-  renderVersionSelector();
-
-  if (profile.keepLoggedIn) {
-    setAccessCookie(currentSheetKey);
-  } else {
-    clearAccessCookie();
-  }
-
-  renderHeader();
-  renderCurrentQuestion();
-  closeVersionOverlay();
 }
 
 function renderCard(label, promptTitle, promptText, body, metaItems = [], options = {}) {
@@ -1713,8 +1979,7 @@ function renderCard(label, promptTitle, promptText, body, metaItems = [], option
     <div class="quiz-card">
       <div class="quiz-topbar">
         <div class="quiz-chip-wrap">
-          <div class="quiz-chip"><strong>${MODE_LABELS[mode]}</strong></div>
-          <div class="quiz-chip">Question <strong>${current + 1}</strong> / ${entries.length}</div>
+          <div class="quiz-chip"><strong>${current + 1}</strong> / ${entries.length}</div>
         </div>
         <div class="progress-wrap">
           <div class="progress-bonus" id="progressBonus">+1</div>
@@ -1741,7 +2006,7 @@ function renderLoadError(message) {
     <div class="quiz-card">
       <div class="prompt-block">
         <p class="prompt-label">Data Error</p>
-        <p class="prompt-text"><strong>シートを読み込めませんでした。</strong><br>${message}</p>
+        <p class="prompt-text"><strong>Could not load the sheet.</strong><br>${message}</p>
       </div>
     </div>
   `;
@@ -1752,33 +2017,47 @@ function renderProfilePage() {
   document.getElementById("quiz").innerHTML = `
     <div class="profile-shell">
       <section class="stats-grid">
-        ${renderStatCard('トータル', total)}
-        ${QUIZ_MODES.map(key => renderStatCard(MODE_LABELS[key], profile.stats[key])).join('')}
+        ${renderStatCard('Total', total)}
+        ${QUIZ_MODES.map(key => renderStatCard(PROFILE_MODE_LABELS[key], profile.stats[key])).join('')}
       </section>
     </div>
   `;
 }
 
 function renderSettingsPanel() {
+  const theme = profile.theme || createDefaultProfile().theme;
   return `
     <div class="settings-panel">
       <div class="settings-row">
         <div class="settings-copy">
-          <p class="settings-title">ログインを維持</p>
+          <p class="settings-title">Dark Mode</p>
         </div>
-        <button class="toggle-switch ${profile.keepLoggedIn ? 'active' : ''}" id="toggleKeepLoggedIn" aria-label="ログインを維持"></button>
+        <button class="toggle-switch ${theme.darkMode ? 'active' : ''} ${theme.followSystem ? 'disabled' : ''}" id="toggleDarkMode" type="button" aria-label="Dark Mode" ${theme.followSystem ? 'disabled' : ''}></button>
       </div>
       <div class="settings-row">
         <div class="settings-copy">
-          <p class="settings-title">定義→英単語の自動入力</p>
+          <p class="settings-title">Match Device Theme</p>
         </div>
-        <button class="toggle-switch ${profile.autoFocusDefinitionAnswer ? 'active' : ''}" id="toggleAutoFocusDefinitionAnswer" aria-label="定義から英単語の入力欄を自動で有効にする"></button>
+        <button class="toggle-switch ${theme.followSystem ? 'active' : ''}" id="toggleFollowSystemTheme" type="button" aria-label="Match Device Theme"></button>
       </div>
       <div class="settings-row">
         <div class="settings-copy">
-          <p class="settings-title">データ削除</p>
+          <p class="settings-title">Auto-Focus Definition Input</p>
         </div>
-        <button class="danger-button" id="clearProfileData">削除</button>
+        <button class="toggle-switch ${profile.autoFocusDefinitionAnswer ? 'active' : ''}" id="toggleAutoFocusDefinitionAnswer" aria-label="Auto-focus the input for Definition to Word"></button>
+      </div>
+      <div class="settings-row">
+        <div class="settings-copy">
+          <p class="settings-title">ALL Range</p>
+          <p class="settings-note">${escapeHtml(getAllModeSummary())}</p>
+        </div>
+        <button class="secondary-button settings-action" id="openAllModeRangeOverlay" type="button">Choose Range</button>
+      </div>
+      <div class="settings-row">
+        <div class="settings-copy">
+          <p class="settings-title">Clear Data</p>
+        </div>
+        <button class="danger-button" id="clearProfileData">Clear</button>
       </div>
     </div>
   `;
@@ -1825,19 +2104,23 @@ function toggleSettings() {
   renderHeader();
 }
 
-function toggleKeepLoggedIn() {
-  profile.keepLoggedIn = !profile.keepLoggedIn;
+function toggleDarkMode() {
+  if (profile.theme?.followSystem) return;
+  profile.theme.darkMode = !profile.theme.darkMode;
   saveProfile();
+  applyTheme();
+  renderHeader();
+}
 
-  if (profile.keepLoggedIn) {
-    setAccessCookie(currentSheetKey);
-  } else {
-    clearAccessCookie();
+function toggleFollowSystemTheme() {
+  const wasFollowingSystem = profile.theme.followSystem;
+  const currentResolvedTheme = getResolvedTheme();
+  profile.theme.followSystem = !profile.theme.followSystem;
+  if (wasFollowingSystem && !profile.theme.followSystem) {
+    profile.theme.darkMode = currentResolvedTheme === 'dark';
   }
-
-  if (mode === 'my_page') {
-    renderProfilePage();
-  }
+  saveProfile();
+  applyTheme();
   renderHeader();
 }
 
@@ -1851,39 +2134,32 @@ function toggleAutoFocusDefinitionAnswer() {
   renderHeader();
 }
 
-function clearProfileData() {
-  const confirmed = window.confirm('名前、成績、ログイン状態を削除します。よろしいですか？');
+async function clearProfileData() {
+  const confirmed = window.confirm('Clear stats and settings?');
   if (!confirmed) return;
 
   profile = createDefaultProfile();
+  applyTheme();
   settingsOpen = false;
-  clearAccessCookie();
+  allModeRangeOverlayOpen = false;
   document.cookie = `${PROFILE_COOKIE}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax`;
 
-  if (mode === 'my_page') {
-    renderProfilePage();
+  if (currentSheetKey === ALL_SHEETS_KEY) {
+    try {
+      await loadSheetData();
+      current = 0;
+      questionSession = null;
+      perfectProgressCount = 0;
+      order = [...entries.keys()];
+      shuffle(order);
+    } catch (error) {
+      entries = [];
+      console.warn('Failed to reload ALL mode data after clearing settings.', error);
+    }
   }
+
   renderHeader();
-}
-
-function returnToAccessScreen() {
-  settingsOpen = false;
-  versionOverlayOpen = false;
-  renderVersionOverlay();
-  gateScreen.classList.remove('hidden');
-  appShell.classList.add('hidden');
-
-  const input = document.getElementById('accessCode');
-  const error = document.getElementById('gateError');
-
-  if (error) {
-    error.textContent = '';
-  }
-
-  if (input) {
-    input.value = '';
-    input.focus();
-  }
+  renderCurrentQuestion();
 }
 
 async function switchSheetVersion(nextKey) {
@@ -1897,13 +2173,9 @@ async function switchSheetVersion(nextKey) {
   currentSheetKey = nextVersion.key;
   saveSelectedSheet(currentSheetKey);
   versionOverlayOpen = false;
+  allModeRangeOverlayOpen = false;
   renderVersionSelector();
   renderHeader();
-
-  const gateError = document.getElementById('gateError');
-  if (gateError) {
-    gateError.textContent = '';
-  }
 
   try {
     await loadSheetData();
@@ -1913,27 +2185,7 @@ async function switchSheetVersion(nextKey) {
     shuffle(order);
   } catch (error) {
     entries = [];
-    accessCode = '';
     console.warn('Failed to load question data after switching sheet.', error);
-  }
-
-  if (profile.keepLoggedIn && isCurrentSheetUnlocked() && entries.length && accessCode) {
-    unlockApp();
-    return;
-  }
-
-  if (appShell.classList.contains('hidden')) {
-    const input = document.getElementById('accessCode');
-    if (input) {
-      input.value = '';
-    }
-    return;
-  }
-
-  gateScreen.classList.remove('hidden');
-  appShell.classList.add('hidden');
-  if (mode === 'my_page') {
-    mode = lastQuizMode;
   }
 }
 
@@ -2014,11 +2266,11 @@ function showDefinitionToWord() {
   renderCard(
     'Definition',
     maskedDefinition,
-    maskedExample || 'この定義と例文に合う英単語を入力してください。',
+    maskedExample || 'Type the English word that matches this definition and example.',
     `
       <div class="answer-row">
-        <input id="answer" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="英単語を入力">
-        <button class="answer-submit" type="button" onclick="checkDefinitionToWord()" aria-label="送信">
+        <input id="answer" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Type the word (space to skip)">
+        <button class="answer-submit" type="button" onclick="checkDefinitionToWord()" aria-label="Submit">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 18V6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
             <path d="M7.5 10.5 12 6l4.5 4.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -2055,7 +2307,14 @@ function revealMaskedAnswers() {
 
 function checkDefinitionToWord() {
   ensureQuestionSession();
-  const user = document.getElementById("answer").value.trim().toLowerCase();
+  const rawValue = document.getElementById("answer").value;
+  if (rawValue === ' ' || rawValue === '　') {
+    recordQuestionOutcome(false);
+    nextQuestion();
+    return;
+  }
+
+  const user = rawValue.trim().toLowerCase();
   const correct = getCurrentEntry().word.toLowerCase();
 
   if (user === correct) {
@@ -2124,7 +2383,7 @@ function renderCurrentQuestion() {
   }
 
   if (!entries.length) {
-    renderLoadError('Google Sheets の単語データを読み込めていません。');
+    renderLoadError('Google Sheets vocabulary data could not be loaded.');
     return;
   }
 
@@ -2143,7 +2402,7 @@ function renderCurrentQuestion() {
 
 function setMode(nextMode) {
   if (!entries.length && nextMode !== 'my_page') {
-    renderLoadError('Google Sheets の単語データを読み込めていません。');
+    renderLoadError('Google Sheets vocabulary data could not be loaded.');
     return;
   }
 
@@ -2166,37 +2425,16 @@ function setMode(nextMode) {
 }
 
 function unlockApp() {
-  gateScreen.classList.add('hidden');
-  appShell.classList.remove('hidden');
   setMode(mode);
 }
 
-function submitAccessCode() {
-  const input = document.getElementById('accessCode');
-  const error = document.getElementById('gateError');
-  const code = input.value.trim();
-
-  if (!accessCode) {
-    error.textContent = 'アクセスコードを取得できませんでした。パスワード列を確認してください。';
-    return;
-  }
-
-  if (code === accessCode) {
-    if (profile.keepLoggedIn) {
-      setAccessCookie(currentSheetKey);
-    } else {
-      clearAccessCookie();
-    }
-    error.textContent = '';
-    unlockApp();
-    return;
-  }
-
-  error.textContent = 'アクセスコードが違います。';
-  input.select();
+function handleSystemThemeChange() {
+  if (!profile.theme?.followSystem) return;
+  applyTheme();
+  renderHeader();
 }
 
-// ===== 簡易テスト =====
+// ===== Simple test =====
 (function test() {
   const sample = getChoices('a', ['a', 'b', 'c', 'd', 'e']);
   console.assert(sample.includes('a'), 'choices must include correct');
@@ -2205,11 +2443,21 @@ function submitAccessCode() {
 async function initializeApp() {
   profile = loadProfile();
   settingsOpen = false;
+  applyTheme();
+
+  if (systemThemeMedia) {
+    if (typeof systemThemeMedia.addEventListener === 'function') {
+      systemThemeMedia.addEventListener('change', handleSystemThemeChange);
+    } else if (typeof systemThemeMedia.addListener === 'function') {
+      systemThemeMedia.addListener(handleSystemThemeChange);
+    }
+  }
+
   try {
     await loadSheetVersions();
   } catch (error) {
     console.warn('Failed to load sheet version config.', error);
-    renderLoadError('管理用スプレッドシートからシート一覧を読み込めませんでした。');
+    renderLoadError('Could not load the sheet list from the admin spreadsheet.');
     return;
   }
 
@@ -2220,24 +2468,9 @@ async function initializeApp() {
     console.info(`Loaded ${entries.length} rows from Google Sheets.`);
   } catch (error) {
     entries = [];
-    accessCode = '';
     console.warn('Failed to load question data.', error);
   }
-
-  if (profile.keepLoggedIn && isCurrentSheetUnlocked() && entries.length && accessCode) {
-    unlockApp();
-    return;
-  }
-
-  if (!profile.keepLoggedIn) {
-    clearAccessCookie();
-  }
-
-  document.getElementById('accessCode').addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-      submitAccessCode();
-    }
-  });
+  unlockApp();
 }
 
 initializeApp();
